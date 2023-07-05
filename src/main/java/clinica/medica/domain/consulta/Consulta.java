@@ -2,8 +2,8 @@ package clinica.medica.domain.consulta;
 
 import clinica.medica.domain.medico.Medico;
 import clinica.medica.domain.paciente.Paciente;
+import clinica.medica.dto.consulta.DTOExcluirConsulta;
 import clinica.medica.dto.consulta.DTOAtualizarConsulta;
-import clinica.medica.dto.consulta.DTOConsulta;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -35,10 +35,20 @@ public class Consulta {
 
     private LocalDateTime data;
 
-      public void atualizar(DTOAtualizarConsulta dados) {
+    private boolean ativo;
+
+   private String motivo;
+
+
+    public void atualizar(DTOAtualizarConsulta dados) {
         if (dados.data() != null){
             this.data = dados.data();
         }
+    }
+
+    public void excluir(DTOExcluirConsulta dados) {
+        this.ativo = false;
+        this.motivo = dados.motivo();
     }
 
 }

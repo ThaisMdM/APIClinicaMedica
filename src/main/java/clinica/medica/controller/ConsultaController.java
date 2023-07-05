@@ -1,16 +1,12 @@
 package clinica.medica.controller;
 
+import clinica.medica.dto.consulta.DTOExcluirConsulta;
 import clinica.medica.dto.consulta.DTOAtualizarConsulta;
 import clinica.medica.dto.consulta.DTOConsulta;
-import clinica.medica.dto.consulta.DTODetalhesConsulta;
-import clinica.medica.dto.medico.DTOAtualizaMedico;
-import clinica.medica.dto.medico.DTOConsultaMedico;
-import clinica.medica.repository.ConsultaRepository;
 import clinica.medica.service.ConsultaService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +18,6 @@ public class ConsultaController {
 
     @Autowired
     private ConsultaService consulta;
-    @Autowired
-    private ConsultaRepository consultaRepository;
 
 
     @PostMapping
@@ -34,31 +28,29 @@ public class ConsultaController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<DTODetalhesConsulta>> listar(@PageableDefault(size = 10, sort = {"id"}) Pageable paginacao){
-        var page = consultaRepository.findAll(paginacao).map(DTODetalhesConsulta::new);
-        return ResponseEntity.ok(page);
+    public ResponseEntity listar(@PageableDefault(size = 10, sort = {"id"}) Pageable paginacao){
+      var lista = consulta.listar(paginacao);
+        return ResponseEntity.ok(lista);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity listarId (@PathVariable Long id){
-        var consulta = consultaRepository.getReferenceById(id);
-        return ResponseEntity.ok(new DTODetalhesConsulta(consulta));
+        var lista = consulta.listarId(id);
+        return ResponseEntity.ok(lista);
     }
 
     @PutMapping
     @Transactional
     public ResponseEntity atualizar(@RequestBody @Valid DTOAtualizarConsulta dados){
-        var consulta = consultaRepository.getReferenceById(dados.id());
-        consulta.atualizar(dados);
-        return ResponseEntity.ok(new DTODetalhesConsulta(consulta));
+        var atualiza = consulta.atualizar(dados);
+        return ResponseEntity.ok(atualiza);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping()
     @Transactional
-    public ResponseEntity excluir (@PathVariable Long id){
-        consultaRepository.deleteById(id);
+    public ResponseEntity excluir (@RequestBody DTOExcluirConsulta dados){
+        consulta.excluir(dados);
         return ResponseEntity.noContent().build();
     }
-
 
 }

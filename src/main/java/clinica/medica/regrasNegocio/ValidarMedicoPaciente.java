@@ -19,7 +19,8 @@ public class ValidarMedicoPaciente implements ValidadorLista {
 
         public void validar (DTOConsulta dados) {
             if (!paciente.existsById(dados.idPaciente())) {
-                throw new ValidacaoPaciente("ID do paciente não encontrado!");
+                 throw new ValidacaoPaciente("ID do paciente não encontrado!");
+
             }
             if (!medico.existsById(dados.idMedico())) {
                 throw new ValidacaoMedico("ID do medico não encontrado!");

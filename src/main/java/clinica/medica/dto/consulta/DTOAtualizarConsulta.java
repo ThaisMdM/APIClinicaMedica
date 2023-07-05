@@ -9,4 +9,7 @@ public record DTOAtualizarConsulta(
         @NotNull
         Long id,
         LocalDateTime data){
+    public DTOAtualizarConsulta(Consulta consulta) {
+        this(consulta.getId(), consulta.getData());
+    }
 }

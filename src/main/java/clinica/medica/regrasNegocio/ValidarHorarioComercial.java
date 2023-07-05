@@ -14,8 +14,8 @@ public class ValidarHorarioComercial implements ValidadorLista {
         var dataConsulta = dados.data();
         var sabado = dataConsulta.getDayOfWeek().equals(DayOfWeek.SATURDAY);
         var domingo = dataConsulta.getDayOfWeek().equals(DayOfWeek.SUNDAY);
-        var horario1 = dataConsulta.getHour() < 7;
-        var horario2 = dataConsulta.getHour() > 18;
+        var horario1 = dataConsulta.getHour() < 8;
+        var horario2 = dataConsulta.getHour() > 17;
 
         if (sabado || domingo || horario1 || horario2) {
             throw new ValidationException("Consulta fora do horário do comercial");

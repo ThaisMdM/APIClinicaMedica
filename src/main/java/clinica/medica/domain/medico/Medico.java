@@ -43,6 +43,7 @@ public class Medico {
         this.endereco = new Endereco(dados.endereco());
     }
 
+
     public void atualizar(DTOAtualizaMedico dados) {
         if (dados.nome() != null){
             this.nome = dados.nome();
@@ -55,7 +56,9 @@ public class Medico {
         }
     }
 
-    public void excluir() {
+    public void excluir(Long id) {
         this.ativo = false;
     }
+
+
 }
